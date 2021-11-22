@@ -4,16 +4,12 @@ from LoadImage import load_all_images
 def normalization():
     r_array, g_array, b_array = load_all_images()
     
-    norm_r_array = r_array/255.0
-    norm_g_array = g_array/255.0
-    norm_b_array = b_array/255.0
-    
-    RGBmatrix = np.array([norm_r_array,norm_g_array,norm_b_array])
+    RGBmatrix = np.array([r_array,g_array,b_array])
     
     g_array = np.array([])
     
     for i in range(len(RGBmatrix[0])):
-        gs = norm_r_array[i]*0.299 + norm_g_array[i]*0.587 + norm_b_array[i]*0.114
+        gs = r_array[i]*0.299 + g_array[i]*0.587 + b_array[i]*0.114
         g_array = np.append(g_array, gs)
     
     return g_array
