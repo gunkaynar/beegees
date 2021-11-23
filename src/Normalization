@@ -6,12 +6,11 @@ def normalization():
     
     RGBmatrix = np.array([r_array,g_array,b_array])
     
-    g_array = np.array([])
-    
-    for i in range(len(RGBmatrix[0])):
-        gs = r_array[i]*0.299 + g_array[i]*0.587 + b_array[i]*0.114
-        g_array = np.append(g_array, gs)
-    
-    return g_array
+    gray = np.empty_like(r_array)
+    for i in range (np.shape(RGBmatrix)[1]):
+        for j in range (np.shape(RGBmatrix)[3]):
+            gray[i][0][j] = r_array[i][0][j]*0.299 + g_array[i][0][j]*0.587 + b_array[i][0][j]*0.114
+
+    return gray
 
 normalization()
