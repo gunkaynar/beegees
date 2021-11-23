@@ -3,8 +3,8 @@ import glob
 import numpy as np
 from PIL import Image
 
-# The old version creates an array wiht shape (mxnxk,), for all R, G, B pixels of all k images with shape (mxn).
-# But we need a wiht shape (mxn,1,k), for all R, G, B pixels of all k images with shape (mxn).
+# The old version creates an array with shape (mxnxk,), for all R, G, B pixels of all k images with shape (mxn).
+# But we need an array with shape (mxn,1,k), for all R, G, B pixels of all k images with shape (mxn).
 
 def load_image(path):
     image = Image.open(path)
