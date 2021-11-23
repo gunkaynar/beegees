@@ -13,18 +13,28 @@ def load_image(path):
 def load_all_images():
     root = "C:/Users/tanay/Documents/Github/beegees/data/"   # Rootu kendinize göre ayarlayın
     
-    b_array = np.array([])
-    g_array = np.array([])
-    r_array = np.array([])
+    b_list = []
+    g_list = []
+    r_list = []
     
     for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
         image_data = load_image(filename)
         if (len(image_data.shape) == 3):
             b, g, r = image_data[:, :, 0], image_data[:, :, 1], image_data[:, :, 2]
-            b_array = np.append(b_array, b)
-            g_array = np.append(g_array, g)
-            r_array = np.append(r_array, r)
-        print(filename)
+            
+            b_list.append([b.flatten()])
+            g_list.append([g.flatten()])
+            r_list.append([r.flatten()])
+            
+        # print(filename)
+    
+    _1D_b_array = np.array(b_list)
+    _1D_g_array = np.array(g_list)
+    _1D_r_array = np.array(r_list)
+    
+    r_array = _1D_r_array.transpose()
+    g_array = _1D_r_array.transpose()
+    b_array = _1D_r_array.transpose()
     
     return r_array, g_array, b_array
 
