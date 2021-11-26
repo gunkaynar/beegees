@@ -1,10 +1,24 @@
 import os
 import glob
 import numpy as np
+import random
 from PIL import Image
 
-# The old version creates an array with shape (mxnxk,), for all R, G, B pixels of all k images with shape (mxn).
-# But we need an array with shape (mxn,1,k), for all R, G, B pixels of all k images with shape (mxn).
+def data_split():
+    root = "/Users/fatmanur/beegees-main/data/"
+    filenames = []
+    for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
+        filenames.append(filename)
+    filenames.sort()  
+    random.seed(230)
+    random.shuffle(filenames) 
+
+    split = int(0.8 * len(filenames))
+    train_filenames = filenames[:split]
+    test_filenames = filenames[split:]
+    return train_filenames, test_filenames
+
+
 
 def load_image(path):
     image = Image.open(path)
@@ -12,41 +26,87 @@ def load_image(path):
     return data
 
 
-def load_all_images():
-    root = '/Users/fatmanur/beegees-main/data'   # Rootu kendinize göre ayarlayın
+
+def load_data():
+    train_filenames, test_filenames = data_split()
     
-    b_list = []
-    g_list = []
-    r_list = []
-    
-    for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
+    b_train_list = []
+    g_train_list = []
+    r_train_list = []
+    for filename in train_filenames:
         image_data = load_image(filename)
         if (len(image_data.shape) == 3):
             b, g, r = image_data[:, :, 0], image_data[:, :, 1], image_data[:, :, 2]
-            
-            b_list.append([b.flatten()])
-            g_list.append([g.flatten()])
-            r_list.append([r.flatten()])
-            
-    _1D_b_array = np.array(b_list)
-    _1D_g_array = np.array(g_list)
-    _1D_r_array = np.array(r_list)
+            b_train_list.append([b.flatten()])
+            g_train_list.append([g.flatten()])
+            r_train_list.append([r.flatten()])
     
-    r_array = _1D_r_array.transpose()
-    g_array = _1D_g_array.transpose()
-    b_array = _1D_b_array.transpose()
+    b_tr_arr = np.array(b_train_list)
+    g_tr_arr = np.array(g_train_list)
+    r_tr_arr = np.array(r_train_list)
     
-    return r_array, g_array, b_array
-
-def label():
-    root = '/Users/fatmanur/beegees-main/data'
-    label_list = [] 
-    for foldername in glob.iglob(os.path.normpath(os.path.join(root,"*")), recursive = True):
-        for filename in glob.iglob(os.path.normpath(os.path.join(foldername, "*.jpg")), recursive = True):
-            if (foldername == root + '/bee1' or foldername == root + '/bee2'):
-                label_list.append([1])
-            else : 
-                label_list.append([0]) 
-    label_arr = np.array(label_list)
-    label = label_arr.transpose()
-    return label
+    b_train_array = b_tr_arr.transpose()
+    g_train_array = g_tr_arr.transpose()
+    r_train_array = r_tr_arr.transpose()
+    
+    RGBmatrix_train = np.array([r_train_array.transpose(),g_train_array.transpose(),b_train_array.transpose()])
+    
+    train_x_orig = np.empty_like(r_train_array)
+    for i in range (np.shape(RGBmatrix_train)[1]):
+        for j in range (np.shape(RGBmatrix_train)[3]):
+            train_x_orig[i][0][j] = r_train_array[i][0][j]*0.299 + g_train_array[i][0][j]*0.587 + b_train_array[i][0][j]*0.114
+    
+    y_train_list = []
+    for filename in train_filenames:
+        path = os.path.dirname(filename)
+        name = os.path.basename(path)
+        if (name == "bee1" or name == "bee2" ):
+            y_train_list.append([1])
+        else :
+            y_train_list.append([0])
+    
+    y_tr_arr = np.array(y_train_list) 
+    train_y = y_tr_arr.transpose()
+    
+    
+    b_test_list = []
+    g_test_list = []
+    r_test_list = []
+    for filename in test_filenames:
+        image_data = load_image(filename)
+        if (len(image_data.shape) == 3):
+            b, g, r = image_data[:, :, 0], image_data[:, :, 1], image_data[:, :, 2]
+            b_test_list.append([b.flatten()])
+            g_test_list.append([g.flatten()])
+            r_test_list.append([r.flatten()])
+    
+    b_ts_arr = np.array(b_test_list)
+    g_ts_arr = np.array(g_test_list)
+    r_ts_arr = np.array(r_test_list)
+    
+    b_test_array = b_ts_arr.transpose()
+    g_test_array = g_ts_arr.transpose()
+    r_test_array = r_ts_arr.transpose()
+    
+    RGBmatrix_test = np.array([r_test_array.transpose(),g_test_array.transpose(),b_test_array.transpose()])
+    
+    test_x_orig = np.empty_like(r_test_array)
+    for i in range (np.shape(RGBmatrix_test)[1]):
+        for j in range (np.shape(RGBmatrix_test)[3]):
+            test_x_orig[i][0][j] = r_test_array[i][0][j]*0.299 + g_test_array[i][0][j]*0.587 + b_test_array[i][0][j]*0.114
+            
+        
+    y_test_list = []
+    for filename in test_filenames:
+        path = os.path.dirname(filename)
+        name = os.path.basename(path)
+        if (name == "bee1" or name == "bee2" ):
+            y_test_list.append([1])
+        else :
+            y_test_list.append([0])
+    
+    y_ts_arr = np.array(y_test_list) 
+    test_y = y_ts_arr.transpose()   
+    
+        
+    return train_x_orig, train_y, test_x_orig, test_y
