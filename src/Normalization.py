@@ -1,5 +1,6 @@
 import numpy as np
-from LoadImage import load_all_images
+from LoadImage import load_all_images, label
+from sklearn.model_selection import train_test_split
 
 def normalization():
     r_array, g_array, b_array = load_all_images()
@@ -13,4 +14,8 @@ def normalization():
 
     return gray
 
-normalization()
+def load_data():
+    X = normalization()
+    y = label()
+    #eklenecek
+    
