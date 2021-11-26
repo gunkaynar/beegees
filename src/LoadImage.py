@@ -44,8 +44,9 @@ def label():
     for foldername in glob.iglob(os.path.normpath(os.path.join(root,"*")), recursive = True):
         for filename in glob.iglob(os.path.normpath(os.path.join(foldername, "*.jpg")), recursive = True):
             if (foldername == root + '/bee1' or foldername == root + '/bee2'):
-                label_list.append(1)
+                label_list.append([1])
             else : 
-                label_list.append(0) 
-    label = np.array(label_list)
+                label_list.append([0]) 
+    label_arr = np.array(label_list)
+    label = label_arr.transpose()
     return label
