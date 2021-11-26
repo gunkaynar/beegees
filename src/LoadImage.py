@@ -13,7 +13,7 @@ def load_image(path):
 
 
 def load_all_images():
-    root = "C:/Users/tanay/Documents/Github/beegees/data/"   # Rootu kendinize göre ayarlayın
+    root = '/Users/fatmanur/beegees-main/data'   # Rootu kendinize göre ayarlayın
     
     b_list = []
     g_list = []
@@ -28,8 +28,6 @@ def load_all_images():
             g_list.append([g.flatten()])
             r_list.append([r.flatten()])
             
-        # print(filename)
-    
     _1D_b_array = np.array(b_list)
     _1D_g_array = np.array(g_list)
     _1D_r_array = np.array(r_list)
@@ -40,4 +38,14 @@ def load_all_images():
     
     return r_array, g_array, b_array
 
-load_all_images()
+def label():
+    root = '/Users/fatmanur/beegees-main/data'
+    label_list = [] 
+    for foldername in glob.iglob(os.path.normpath(os.path.join(root,"*")), recursive = True):
+        for filename in glob.iglob(os.path.normpath(os.path.join(foldername, "*.jpg")), recursive = True):
+            if (foldername == root + '/bee1' or foldername == root + '/bee2'):
+                label_list.append(1)
+            else : 
+                label_list.append(0) 
+    label = np.array(label_list)
+    return label
