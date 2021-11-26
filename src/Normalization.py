@@ -15,7 +15,4 @@ def normalization():
     return gray
 
 def load_data():
-    X = normalization()
-    y = label()
-    #eklenecek
     
