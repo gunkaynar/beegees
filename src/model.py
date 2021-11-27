@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from dnn import *
-#load_data import edilmeli!!!
+from LoadImage import load_data
 
 
 
