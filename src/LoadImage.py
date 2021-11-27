@@ -4,6 +4,7 @@ import numpy as np
 import random
 from PIL import Image
 
+# Randomly spilt data into 5 pieces then use 4 pieces as training set and 1 piece as test set.
 def data_split():
     root = "/Users/fatmanur/beegees-main/data/"
     filenames = []
@@ -30,6 +31,7 @@ def load_image(path):
 def load_data():
     train_filenames, test_filenames = data_split()
     
+    # Create RGB matrix for Train Dataset
     b_train_list = []
     g_train_list = []
     r_train_list = []
@@ -51,11 +53,13 @@ def load_data():
     
     RGBmatrix_train = np.array([r_train_array.transpose(),g_train_array.transpose(),b_train_array.transpose()])
     
+    # Creating Gray Scale Matrix from RGB Matrix of Train Dataset
     train_x_orig = np.empty_like(r_train_array)
     for i in range (np.shape(RGBmatrix_train)[1]):
         for j in range (np.shape(RGBmatrix_train)[3]):
             train_x_orig[i][0][j] = r_train_array[i][0][j]*0.299 + g_train_array[i][0][j]*0.587 + b_train_array[i][0][j]*0.114
     
+    # Labelling Test Dataset
     y_train_list = []
     for filename in train_filenames:
         path = os.path.dirname(filename)
@@ -68,7 +72,7 @@ def load_data():
     y_tr_arr = np.array(y_train_list) 
     train_y = y_tr_arr.transpose()
     
-    
+    # Create RGB matrix for Test Dataset
     b_test_list = []
     g_test_list = []
     r_test_list = []
@@ -90,12 +94,13 @@ def load_data():
     
     RGBmatrix_test = np.array([r_test_array.transpose(),g_test_array.transpose(),b_test_array.transpose()])
     
+    # Creating Gray Scale Matrix from RGB Matrix of Test Dataset
     test_x_orig = np.empty_like(r_test_array)
     for i in range (np.shape(RGBmatrix_test)[1]):
         for j in range (np.shape(RGBmatrix_test)[3]):
             test_x_orig[i][0][j] = r_test_array[i][0][j]*0.299 + g_test_array[i][0][j]*0.587 + b_test_array[i][0][j]*0.114
             
-        
+    # Labelling Test Dataset
     y_test_list = []
     for filename in test_filenames:
         path = os.path.dirname(filename)
