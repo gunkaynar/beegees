@@ -125,5 +125,10 @@ def load_data():
     y_ts_arr = np.array(y_test_list) 
     test_y = y_ts_arr.transpose()   
     
+    # Collect Training and Test Arrays in NPY file
+    np.save('x_train.npy', train_x_orig)
+    np.save('x_test.npy', test_x_orig)
+    np.save('y_train.npy', train_y)
+    np.save('y_test.npy', test_y)
         
     return train_x_orig, train_y, test_x_orig, test_y
