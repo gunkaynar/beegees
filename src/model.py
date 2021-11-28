@@ -1,5 +1,4 @@
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from dnn import *
@@ -7,7 +6,7 @@ from LoadImage import load_data
 
 
 
-train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
+train_x_orig, train_y, test_x_orig, test_y = load_data()
 
 m_train = train_x_orig.shape[0]
 num_px = train_x_orig.shape[1]

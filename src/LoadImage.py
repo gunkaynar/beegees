@@ -6,7 +6,7 @@ from PIL import Image
 
 # Randomly spilt data into 5 pieces then use 4 pieces as training set and 1 piece as test set.
 def data_split():
-    root = "/Users/fatmanur/beegees-main/data/"
+    root = "/Users/gunkaynar/Desktop/beegees"
     filenames = []
     for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
         filenames.append(filename)
