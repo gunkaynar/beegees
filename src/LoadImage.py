@@ -51,7 +51,7 @@ def load_data():
     g_train_array = g_tr_arr.transpose()
     r_train_array = r_tr_arr.transpose()
     
-    RGBmatrix_train = np.array([r_train_array.transpose(),g_train_array.transpose(),b_train_array.transpose()])
+    RGBmatrix_train = np.array([r_train_array,g_train_array,b_train_array])
     
     # Creating Gray Scale Matrix from RGB Matrix of Train Dataset
     train_x_orig = np.empty_like(r_train_array)
@@ -92,7 +92,7 @@ def load_data():
     g_test_array = g_ts_arr.transpose()
     r_test_array = r_ts_arr.transpose()
     
-    RGBmatrix_test = np.array([r_test_array.transpose(),g_test_array.transpose(),b_test_array.transpose()])
+    RGBmatrix_test = np.array([r_test_array, g_test_array, b_test_array])
     
     # Creating Gray Scale Matrix from RGB Matrix of Test Dataset
     test_x_orig = np.empty_like(r_test_array)
