@@ -59,7 +59,7 @@ def load_data():
         for j in range (np.shape(RGBmatrix_train)[3]):
             train_x_orig[i][0][j] = r_train_array[i][0][j]*0.299 + g_train_array[i][0][j]*0.587 + b_train_array[i][0][j]*0.114
     
-    # Labelling Test Dataset
+    # Labelling Train Dataset
     y_train_list = []
     for filename in train_filenames:
         path = os.path.dirname(filename)
