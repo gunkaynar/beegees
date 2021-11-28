@@ -2,13 +2,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from dnn import *
-from LoadImage import load_data
 
 
-train_x_orig, train_y, test_x_orig, test_y = load_data()
-train_x = np.reshape(train_x_orig,(50176,2272))
+# Gerek kalmadi
+# from LoadImage import load_data
+# train_x_orig, train_y, test_x_orig, test_y = load_data()
+
+# Collected arrays
+train_x_orig = np.load('x_train.npy')
+train_y = np.load('y_train.npy')
+test_x_orig = np.load('x_test.npy')
+test_y = np.load('y_test.npy')
+
+# Bu kisimda reshape değerleri sadece b2 ve w1 için çalıştırılan modeldekilerle yapılmış, genelleştirdim.
+train_x = np.reshape(train_x_orig,(np.shape(train_x_orig)[0],np.shape(train_x_orig)[2]))
 train_x = train_x.T
-test_x = np.reshape(test_x_orig,(50176,567))
+test_x = np.reshape(test_x_orig,(np.shape(test_x_orig)[0],np.shape(test_x_orig)[2]))
+
 test_x = test_x.T
 m_train = train_x.shape[0]
 num_px = train_x.shape[1]
