@@ -6,7 +6,7 @@ from LoadImage import load_data
 
 
 train_x_orig, train_y, test_x_orig, test_y = load_data()
-train_x = np.rehape(train_x_orig,(50176,2272))
+train_x = np.reshape(train_x_orig,(50176,2272))
 train_x = train_x.T
 test_x = np.reshape(test_x_orig,(50176,567))
 test_x = test_x.T
