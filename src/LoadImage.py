@@ -13,7 +13,7 @@ def load_image(path):
 
 # Resize dataset to all have same size (nxm)
 def resize():
-    root = '/Users/fatmanur/beegees-main/data'
+    root = '/Users/gunkaynar/Desktop/beegees/data'
     for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
         image = Image.open(filename)
         image = image.resize((224,224))
@@ -21,7 +21,7 @@ def resize():
 
 # Split data into Training and Test Sets        
 def data_split():
-    root = '/Users/fatmanur/beegees-main/data'
+    root = '/Users/gunkaynar/Desktop/beegees/data'
     filenames = []
     for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
         filenames.append(filename)
