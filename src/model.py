@@ -6,17 +6,20 @@ from LoadImage import load_data
 
 
 train_x_orig, train_y, test_x_orig, test_y = load_data()
-
-m_train = train_x_orig.shape[0]
-num_px = train_x_orig.shape[1]
-m_test = test_x_orig.shape[0]
+train_x = np.rehape(train_x_orig,(50176,2272))
+train_x = train_x.T
+test_x = np.reshape(test_x_orig,(50176,567))
+test_x = test_x.T
+m_train = train_x.shape[0]
+num_px = train_x.shape[1]
+m_test = test_x.shape[0]
 
 print ("Number of training examples: " + str(m_train))
 print ("Number of testing examples: " + str(m_test))
 print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
-print ("train_x_orig shape: " + str(train_x_orig.shape))
+print ("train_x_orig shape: " + str(train_x.shape))
 print ("train_y shape: " + str(train_y.shape))
-print ("test_x_orig shape: " + str(test_x_orig.shape))
+print ("test_x_orig shape: " + str(test_x.shape))
 print ("test_y shape: " + str(test_y.shape))
 
 
@@ -30,7 +33,7 @@ def plot_costs(costs, learning_rate=0.0075):
 
 
 
-layers_dims = [12288, 20, 7, 5, 1]  #adjust this
+layers_dims = [50176, 20, 7, 5, 1]  #adjust this
 
 
 

@@ -3,7 +3,6 @@ import random
 import os
 import os.path
 import glob
-import PIL
 from PIL import Image
 
 # Load images as arrays

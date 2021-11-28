@@ -67,7 +67,7 @@ def L_model_forward(X, parameters):
 
     caches = []
     A = X
-    L = len(parameters) // 2               
+    L = len(parameters)              
     
 
     for l in range(1, L):
@@ -174,7 +174,7 @@ def L_model_backward(AL, Y, caches):
 def update_parameters(params, grads, learning_rate):
 
     parameters = params.copy()
-    L = len(parameters) // 2 
+    L = len(parameters) 
 
 
     for l in range(L):
