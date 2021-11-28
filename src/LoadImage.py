@@ -1,12 +1,28 @@
-import os
-import glob
 import numpy as np
 import random
+import os
+import os.path
+import glob
+import PIL
 from PIL import Image
 
-# Randomly spilt data into 5 pieces then use 4 pieces as training set and 1 piece as test set.
+# Load images as arrays
+def load_image(path):
+    image = Image.open(path)
+    data = np.asarray(image, dtype="int32")
+    return data
+
+# Resize dataset to all have same size (nxm)
+def resize():
+    root = '/Users/fatmanur/beegees-main/data'
+    for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
+        image = Image.open(filename)
+        image = image.resize((224,224))
+        image.save(filename)
+
+# Split data into Training and Test Sets        
 def data_split():
-    root = "/Users/gunkaynar/Desktop/beegees"
+    root = '/Users/fatmanur/beegees-main/data'
     filenames = []
     for filename in glob.iglob(os.path.normpath(os.path.join(root, "**/*.jpg")), recursive = True):
         filenames.append(filename)
@@ -19,22 +35,20 @@ def data_split():
     test_filenames = filenames[split:]
     return train_filenames, test_filenames
 
-
-
-def load_image(path):
-    image = Image.open(path)
-    data = np.asarray(image, dtype="int32")
-    return data
-
-
-
+# Exctract RGB layers from image arrays and create RGB matrix. 
+# Normalize RGB matrix to have GrayScale matrix by using linear approximation of gamma and perceptual luminance corrected
+# Label datasets accourding to folder name
+# Obtain training features & labels and testing features & labels
 def load_data():
+    resize()
+    
     train_filenames, test_filenames = data_split()
     
     # Create RGB matrix for Train Dataset
     b_train_list = []
     g_train_list = []
     r_train_list = []
+    
     for filename in train_filenames:
         image_data = load_image(filename)
         if (len(image_data.shape) == 3):
@@ -46,7 +60,6 @@ def load_data():
     b_tr_arr = np.array(b_train_list)
     g_tr_arr = np.array(g_train_list)
     r_tr_arr = np.array(r_train_list)
-    
     b_train_array = b_tr_arr.transpose()
     g_train_array = g_tr_arr.transpose()
     r_train_array = r_tr_arr.transpose()
@@ -100,7 +113,7 @@ def load_data():
         for j in range (np.shape(RGBmatrix_test)[3]):
             test_x_orig[i][0][j] = r_test_array[i][0][j]*0.299 + g_test_array[i][0][j]*0.587 + b_test_array[i][0][j]*0.114
             
-    # Labelling Test Dataset
+    # Labelling Test Dataset    
     y_test_list = []
     for filename in test_filenames:
         path = os.path.dirname(filename)
