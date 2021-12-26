@@ -25,13 +25,9 @@ def load_split_train_test(datadir, valid_size = .2):
     testloader = torch.utils.data.DataLoader(test_data, sampler=test_sampler, batch_size=64)
     return trainloader, testloader
 trainloader, testloader = load_split_train_test(data_dir, .2)
-gpu_id = int(input("GPU index: "))
+gpu_id = 6
 if torch.cuda.is_available():
     device = torch.device(f"cuda:{gpu_id}")
-    print(f"GPU {gpu_id} is available")
-else:
-    device = torch.device("cpu")
-    print("GPU is not available")
 print("We're using =>", device)
 model=torch.load('beemodel.pth')
 model.eval()
@@ -62,6 +58,7 @@ def get_random_images(num):
 to_pil = transforms.ToPILImage()
 images, labels = get_random_images(5)
 fig=plt.figure(figsize=(10,10))
+
 for ii in range(len(images)):
     image = to_pil(images[ii])
     index = predict_image(image)
@@ -71,3 +68,4 @@ for ii in range(len(images)):
     plt.axis('off')
     plt.imshow(image)
 plt.savefig("somepredictions.png")
+
